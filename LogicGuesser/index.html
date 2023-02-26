@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogicGuesser</title>
+</head>
+<body >
+    
+
+    <div class="container-main" id="container-main" style="width: 768px;height: 767px;background: #FFFFFF; box-shadow: 0px 10px 4px rgba(0, 0, 0, 0.25); border-radius: 30px;width:40%;margin:auto">
+        
+        <h1 id="Namelogic" style="font-size: 45px;width:45%;padding-left:50px;padding-top:60px"></h1>
+        
+        
+
+
+        <p id="question" style="padding-left:50px;width:70%;border-radius:15px;padding-top:10px;font-size: 45px;"></p>
+        
+        <div id="sub-container" style="width:30%;margin-left:50px">
+        <button class="buttons" style="margin-bottom:30px;margin-right:30px;width:670px;height:100px;font-size:40px;border-radius:30px;outline:0;border:0;" id="answer0"></button>
+        <button  class="buttons" style="margin-bottom:30px;margin-right:30px;width:670px;height:100px;font-size:40px;border-radius:30px;outline:0;border:0;" id="answer1"></button>
+        <button  class="buttons" style="margin-right:30px;width:670px;height:100px;font-size:40px;border-radius:30px;outline:0;border:0;" id="answer2"></button>
+        <button onclick=reload() class="buttons" id="next" style="background:none;border:0;width:30%;margin-left:270px;margin-top:20px"><img src="next.png" width="128px" height="140px"></button>
+        </div>
+        
+
+    </div>
+    
+
+
+
+                    
+    <style>
+        .container-main{
+            font-weight: bold;
+        }
+      
+    </style>
+
+    
+
+
+
+
+
+
+
+<script>
+
+
+
+    function reload(){
+        location.reload()
+    }
+
+
+
+
+        document.getElementById("answer1").addEventListener("click", answer1);
+        document.getElementById("answer0").addEventListener("click", answer0);
+        document.getElementById("answer2").addEventListener("click", answer2);
+
+
+        document.getElementById("next").style.display = "none";
+
+    
+
+        function next(){
+            document.getElementById("container-main").style.height = "850px"
+            document.getElementById("next").style.display = "block";
+        }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+        all_logic = ["A + Ā = ","A + A = ","A + 0 = ","A + 1 = ","A + B = ","A + (B + C) = ","A + (B * C) = ","Ā + B̄ = ","Ā̃ = ","A + (A*B) = ","A + Ā * B =  ","A * Ā = ","A * A =","A * 1 = ","A * 0 =","A * B = ","A *(B*C) =","A * (B+C) = ","Ā * B̄ = ","A = ","A * (A + B) = ","A * (Ā + B) = "]
+        all_result = ["1","A","A","1","B+A","(A+B)+C","(A+B)*(A+C)","Ā*B̄","A","A","A+B","0","A","A","0","B*A","(A*B)*C","A*B + A*C","Ā+B̄","Ā̃","A","A*B"]
+        all_name = ["Teorema della Completazione","Teorema della Idempotenza","Teorema di Identità","Teorema  di Annulamento","Proprietà Commutativa","Proprietà Associativa","Proprietà Distributiva","Teorema di De Morgan","Teorema dell'involuzione","Primo Teorema dell'assorbimento","Secondo Teorema dell'Assorbimento"]
+
+        var num = Math.floor(Math.random()*all_logic.length);
+
+
+        var tmp = Math.floor(Math.random()*all_logic.length);
+
+        while (num == tmp){
+            tmp = Math.floor(Math.random()*all_logic.length);
+        }
+        answer1 = tmp;
+
+     
+
+        var tmp = Math.floor(Math.random()*all_logic.length);
+
+        while (num == tmp || tmp == answer1){
+            tmp = Math.floor(Math.random()*all_logic.length);
+        }
+        answer2 = tmp;
+
+
+
+
+
+
+
+
+
+
+        all_correct = [answer1,answer2,num]
+
+        var f,g,e;
+
+        while (true){
+            if (f != g && g != e && f != g && f != e){
+                break
+            }
+            f = Math.floor(Math.random()*3)
+            g = Math.floor(Math.random()*3)
+            e = Math.floor(Math.random()*3)
+
+        }
+
+        if (num > 10){
+            
+            document.getElementById("Namelogic").innerHTML = all_name[num-11]
+        }
+        else{
+            
+            document.getElementById("Namelogic").innerHTML = all_name[num]
+        }
+
+    
+
+        
+        
+ 
+
+
+        document.getElementById("question").innerHTML = all_logic[num]
+        document.getElementById("answer0").innerHTML = all_result[all_correct[f]]
+        document.getElementById("answer1").innerHTML = all_result[all_correct[g]]
+        document.getElementById("answer2").innerHTML = all_result[all_correct[e]]
+
+        error = false;
+
+
+        function answer1(){
+            if (document.getElementById("answer1").innerHTML == all_result[num] && error == false){
+                document.getElementById("answer1").style.backgroundColor = "rgba(72, 235, 18, 0.3)"
+                document.getElementById("answer1").style.border = "5px solid #48EB12"
+                document.getElementById("question").innerHTML =  "<p> " + document.getElementById("question").innerHTML + "<e style='color:#48EB12;'>" + all_result[num] + "</e>" + "</p>";
+            
+                next()
+                error = true
+                
+            }
+
+            else{
+                if (error == false){
+                    document.getElementById("answer1").style.backgroundColor = "rgba(255, 59, 40, 0.3)"
+                    document.getElementById("answer1").style.border = "5px solid #FF3B28"
+                    document.getElementById("question").innerHTML =  "<p> " + document.getElementById("question").innerHTML + "<e style='color:#FF3B28;'>" + all_result[num] + "</e>" + "</p>";
+            
+                    error = true
+
+                }
+                next()
+
+            }
+            
+            
+
+        }
+        
+        function answer2(){
+            if (document.getElementById("answer2").innerHTML == all_result[num] && error == false){
+                document.getElementById("answer2").style.backgroundColor = "rgba(72, 235, 18, 0.3)"
+                document.getElementById("answer2").style.border = "5px solid #48EB12"
+                document.getElementById("question").innerHTML =  "<p> " + document.getElementById("question").innerHTML + "<e style='color:#48EB12;'>" + all_result[num] + "</e>" + "</p>";
+                next()
+                error = true
+            }
+            else{
+                if (error == false){
+                    document.getElementById("answer2").style.backgroundColor = "rgba(255, 59, 40, 0.3)"
+                    document.getElementById("answer2").style.border = "5px solid #FF3B28"
+   
+                    document.getElementById("question").innerHTML =  "<p> " + document.getElementById("question").innerHTML + "<e style='color:#FF3B28;'>" + all_result[num] + "</e>" + "</p>";
+                
+                    error = true
+
+
+                }
+                next()
+
+            }
+            
+            
+
+        }
+
+        
+        function answer0(){
+            if (document.getElementById("answer0").innerHTML == all_result[num] && error == false){
+                document.getElementById("answer0").style.backgroundColor = "rgba(72, 235, 18, 0.3)"
+                document.getElementById("answer0").style.border = "5px solid #48EB12"
+                document.getElementById("question").innerHTML =  "<p> " + document.getElementById("question").innerHTML + "<e style='color:#48EB12;'>" + all_result[num] + "</e>" + "</p>";
+            
+                next()
+                error = true
+            }
+            else{
+                if (error == false){
+                    document.getElementById("answer0").style.backgroundColor = "rgba(255, 59, 40, 0.3)"
+                    document.getElementById("answer0").style.border = "5px solid #FF3B28"
+                    document.getElementById("question").innerHTML =  "<p> " + document.getElementById("question").innerHTML + "<e style='color:#FF3B28;'>" + all_result[num] + "</e>" + "</p>";
+            
+                    
+                    error = true
+
+                }
+                next()
+   
+            }
+            
+
+        }
+
+
+
+
+
+
+    </script>
+
+    <style>
+        body{
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background: rgb(131,58,180);
+            background: #FFFFFF;
+            background: -webkit-radial-gradient(center, #FFFFFF, #528BFA);
+            background: -moz-radial-gradient(center, #FFFFFF, #528BFA);
+            background: radial-gradient(ellipse at center, #FFFFFF, #528BFA);
+            background-attachment: fixed;
+        }
+    </style>
+
+    
+</body>
+</html>
